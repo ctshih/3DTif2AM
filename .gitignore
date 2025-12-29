@@ -1,0 +1,17 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.env
+
+# Streamlit
+.streamlit/secrets.toml
+
+# Data files (Large 3D files)
+*.tif
+*.tiff
+*.am
