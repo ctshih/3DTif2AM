@@ -109,9 +109,15 @@ if st.session_state['selected_file']:
     
     st.divider()
     
+    st.subheader("Output Format")
+    format_choice = st.radio("Select format", ["ASCII", "Binary"], horizontal=True, label_visibility="collapsed")
+    
+    st.divider()
+    
     # Step 3: Convert
     if st.button("Convert to AmiraMesh"):
-        default_out = os.path.basename(file_path).rsplit('.', 1)[0] + "-3d-ascii.am"
+        suffix = "-3d-ascii.am" if format_choice == "ASCII" else "-3d-binary.am"
+        default_out = os.path.basename(file_path).rsplit('.', 1)[0] + suffix
         save_path = save_file_dialog(default_out)
         
         if save_path:
@@ -124,7 +130,7 @@ if st.session_state['selected_file']:
                 
                 # 2. Write
                 progress_bar.progress(50, text="Writing AmiraMesh file (this may take a while)...")
-                converter.write_amira(save_path, data, (vx, vy, vz))
+                converter.write_amira(save_path, data, (vx, vy, vz), ascii_format=(format_choice == "ASCII"))
                 
                 progress_bar.progress(100, text="Done!")
                 st.success(f"Conversion Complete! Saved to: `{save_path}`")
